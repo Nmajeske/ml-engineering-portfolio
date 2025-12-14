@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "traffic_analysis"
+version = "0.1.0"
+description = "ETL + SQL project for Caltrans PEMS traffic data"
+authors = [{name="Nicholas Majeske", email="nicholasmajeske@gmail.com"}]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "duckdb>=0.7.1",
+    "pandas>=2.0",
+    "numpy>=1.27",
+    "pyarrow>=12.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "black>=24.0",
+    "isort>=5.12",
+    "mypy>=1.5",
+    "flake8>=6.1"
+]

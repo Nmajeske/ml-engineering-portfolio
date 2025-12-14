@@ -1,0 +1,85 @@
+# ===============================
+# Python
+# ===============================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# ===============================
+# Python tooling
+# ===============================
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.cache/
+
+# ===============================
+# Jupyter
+# ===============================
+.ipynb_checkpoints/
+
+# ===============================
+# Data files (VERY IMPORTANT)
+# ===============================
+data/raw/
+data/processed/
+data/interim/
+*.parquet
+*.csv
+*.tsv
+*.gz
+*.zip
+*.duckdb
+*.db
+*.sqlite
+*.sqlite3
+
+# ===============================
+# Logs & temp files
+# ===============================
+*.log
+*.tmp
+
+# ===============================
+# DuckDB
+# ===============================
+*.duckdb
+
+# ===============================
+# Docker
+# ===============================
+.env
+.env.*
+docker-compose.override.yml
+
+# ===============================
+# OS
+# ===============================
+.DS_Store
+Thumbs.db
+
+# ===============================
+# VS Code
+# ===============================
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# ===============================
+# Misc
+# ===============================
+*.swp
+*.bak
