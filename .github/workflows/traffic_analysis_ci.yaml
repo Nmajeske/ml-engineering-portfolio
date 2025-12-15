@@ -4,11 +4,11 @@ on: # Triggers: run all jobs when a push or pull request happens at sql_projects
   push:
     paths:
       - "sql_projects/traffic_analysis/**"
-      - ".github/workflows/traffic_analysis_ci.yml"
+      - ".github/workflows/traffic_analysis_ci.yaml"
   pull_request:
     paths:
       - "sql_projects/traffic_analysis/**"
-      - ".github/workflows/traffic_analysis_ci.yml"
+      - ".github/workflows/traffic_analysis_ci.yaml"
 
 jobs: # Jobs: each defines a list of actions to execute. Job success => changes accepted, job failure => changes rejected
   test:
