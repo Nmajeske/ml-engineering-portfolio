@@ -7,7 +7,7 @@ name = "traffic_analysis"
 version = "0.1.0"
 description = "ETL + SQL project for Caltrans PEMS traffic data"
 authors = [{name="Nicholas Majeske", email="nicholasmajeske@gmail.com"}]
-license = { text = "MIT" }
+license = "MIT"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -17,6 +17,10 @@ dependencies = [
     "pyarrow>=12.0"
 ]
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["traffic_analysis*"]
+
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0",
@@ -25,3 +29,23 @@ dev = [
     "mypy>=1.5",
     "flake8>=6.1"
 ]
+
+# ------------------------------
+# Tooling
+# ------------------------------
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+addopts = "-v"
+testpaths = ["tests"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+ignore_missing_imports = true

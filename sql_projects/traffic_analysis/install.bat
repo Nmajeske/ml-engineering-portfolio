@@ -22,7 +22,7 @@ echo Upgrading pip...
 
 REM Install traffic_analysis in editable mode
 echo Installing traffic_analysis in editable mode...
-"%PIP%" install -e .
+"%PIP%" install -e .[dev]
 
 echo.
 echo ✅ Environment setup complete!
@@ -30,5 +30,5 @@ echo Use the following Python executable when working in this environment:
 echo     %PYTHON%
 echo.
 echo Example:
-echo     "%PYTHON%" -m scripts
+echo     "%PYTHON%" -m traffic_analysis
 echo =====================================
