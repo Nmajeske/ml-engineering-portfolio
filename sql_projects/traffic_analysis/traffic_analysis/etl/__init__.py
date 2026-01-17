@@ -1,1 +1,1 @@
-from .create_table import pems_to_db
+from . import pems

@@ -48,4 +48,4 @@ COPY . .
 EXPOSE 8000
 
 # Run the application.
-CMD ["python", "-m", "traffic_analysis"]
+CMD ["python", "-m", "traffic_analysis", "test", "--district", "3"]

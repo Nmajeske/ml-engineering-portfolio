@@ -83,12 +83,7 @@ class PeMSHandler(object):
                     )
                 )
             else:
-                self.log.info(
-                    "No data available for filetype: {}, year: {}, "
-                    "district: {}".format(
-                        url["file_type"], url["year"], url["district"]
-                    )
-                )
+                self.log.info("No data available for filetype: {}, year: {}, " "district: {}".format(url["file_type"], url["year"], url["district"]))
 
         return files
 
@@ -133,17 +128,13 @@ class PeMSHandler(object):
         """Return a list of clearing house urls corresponding to user's query."""
         urls = list()
         years = self._get_list_of_years(start_year=start_year, end_year=end_year)
-        for file_type, district, year in itertools.product(
-            file_types, districts, years
-        ):
+        for file_type, district, year in itertools.product(file_types, districts, years):
             urls.append(
                 {
                     "file_type": file_type,
                     "district": district,
                     "year": year,
-                    "url": CLEARING_HOUSE_URL.format(
-                        BASE_URL, district, year, file_type
-                    ),
+                    "url": CLEARING_HOUSE_URL.format(BASE_URL, district, year, file_type),
                 }
             )
         return urls
@@ -182,44 +173,24 @@ class PeMSHandler(object):
         )
         files_to_download = pd.DataFrame(files_to_download)
 
-        # Get existing files
-        files_downloaded = self._load_download_lookup(save_path=save_path)
-
-        # Remove previously downloaded files
-        files_to_download = self._check_for_new_files(
-            files_to_download=files_to_download, files_downloaded=files_downloaded
-        )
-
         successful_rows = []
-
-        if not files_to_download.empty:
-            for index, row in files_to_download.iterrows():
-                success = self._download_file(
-                    file_name=row["file_name"],
-                    file_url=row["download_url"],
-                    save_path=save_path,
-                )
-                if success:
-                    successful_rows.append(row)
-                if download_delay > 0:  # updated to adjust sleep time between downloads
-                    time.sleep(download_delay)
-
-            files_downloaded = pd.concat(
-                [files_downloaded, pd.DataFrame(successful_rows)], ignore_index=True
-            )  # updated since .append is deprecated in pandas>=1.4.0
-
-            # Save lookup csv
-            files_downloaded.to_csv(
-                os.path.join(save_path, "saved_files.csv"), index=False
+        for index, row in files_to_download.iterrows():
+            if os.path.exists(os.path.join(save_path, row["file_name"])):
+                self.log.info(f"File {row['file_name']} already downloaded. Moving on.")
+                continue
+            success = self._download_file(
+                file_name=row["file_name"],
+                file_url=row["download_url"],
+                save_path=save_path,
             )
-            self.log.info(
-                "Downloads complete, {} files, {} megabites".format(
-                    files_to_download.shape[0],
-                    np.round(files_to_download["megabites"].sum(), 1),
-                )
-            )
-        else:
-            self.log.info("No data available to download")
+            if success:
+                successful_rows.append(row)
+            if download_delay > 0:  # updated to adjust sleep time between downloads
+                time.sleep(download_delay)
+
+        files_downloaded = pd.DataFrame(successful_rows)
+
+        self.log.info("Downloads complete, {} files".format(files_downloaded.shape[0]))
 
     @staticmethod
     def _check_for_new_files(files_to_download, files_downloaded):
@@ -239,9 +210,7 @@ class PeMSHandler(object):
         """Download single text file."""
         try:
             self.log.info("Start download, {}".format(file_name))
-            self.browser.retrieve(
-                "{}{}".format(BASE_URL, file_url), os.path.join(save_path, file_name)
-            )
+            self.browser.retrieve("{}{}".format(BASE_URL, file_url), os.path.join(save_path, file_name))
             self.log.info("Download completed")
             return True
         except Exception:
@@ -311,7 +280,7 @@ class PeMSHandler(object):
 
     def _get_html_object(self):
         """Read main page HTML and return bs object."""
-        return BeautifulSoup(self.browser.response().read())
+        return BeautifulSoup(self.browser.response().read(), features="html5lib")
 
     def _parse_html(self):
         """Convert BeautifulSoup html object to JSON."""
